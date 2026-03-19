@@ -1,40 +1,27 @@
-🚗 Rent A Car Management System
-A web-based car rental management application developed using ASP.NET Core MVC and SQL Server. This project simplifies vehicle tracking, user reservations, and fleet management.
+# 🚗 Rent A Car Management System 
 
-🌟 Key Features
-Dynamic Fleet Management: Add, edit, or remove vehicles with ease.
+Welcome to my Car Rental Management project! This is a web-based application built with **ASP.NET Core MVC** and **SQL Server**. It is designed to handle vehicle tracking and user reservations efficiently.
 
-User Reservations: Streamlined process for clients to book available cars.
+## 🌟 Key Features
+* 🏎️ **Vehicle Management**: Full control over adding, updating, and deleting cars.
+* 📅 **Easy Reservations**: User-friendly booking system for clients.
+* 🛠️ **Database Integration**: Seamless data management with Entity Framework Core and SQL.
+* 💎 **Modern Design**: Clean UI with professional **turquoise** color accents.
 
-Database Migrations: Easy database setup using Entity Framework Core Migrations.
+## 💻 Tech Stack
+* 🏗️ **Backend**: C# & ASP.NET Core MVC
+* 🗄️ **Database**: SQL Server & EF Core Migrations
+* 🎨 **Frontend**: HTML5, CSS3, JavaScript & Bootstrap
 
-Modern UI: A clean interface featuring professional design elements.
+## ⚙️ How to Run?
+1. 📂 **Clone** this repository to your computer.
+2. 🖥️ **Open** the `rent_a_car.sln` file in Visual Studio.
+3. 🔗 **Update** your connection string in `appsettings.json`.
+4. 🚀 **Run** `Update-Database` in the Package Manager Console.
+5. ▶️ **Press F5** and enjoy the app!
 
-🛠️ Tech Stack
-Backend: ASP.NET Core MVC (C#)
+## 👩‍💻 About Me
+I am a 3rd-year **Computer Engineering** student at Adana Alparslan Türkeş Science and Technology University. I am passionate about web development and currently lead the software team for the **Teknofest "Çelik Kubbe"** project.
 
-Database: SQL Server & Entity Framework Core
-
-Frontend: HTML5, CSS3, JavaScript, Bootstrap
-
-⚙️ Getting Started
-To get a local copy up and running, follow these simple steps:
-
-1. Prerequisites
-Visual Studio 2022 or later.
-
-.NET SDK (matching the project version).
-
-SQL Server Express or LocalDB.
-
-2. Installation & Database Setup
-1-Clone the repository:
-git clone https://github.com/your-username/RentACar-Management-System.git
-
-Open the .sln file in Visual Studio.
-
-Update the Connection String in appsettings.json to point to your local SQL Server instance.
-
-Open the Package Manager Console and run:
-Update-Database
-(This will automatically create the database and tables using the included Migrations).
+---
+*Developed with ❤️ by Sümeyra*
