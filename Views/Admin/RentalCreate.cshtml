@@ -1,0 +1,101 @@
+﻿@model rent_a_car.Models.Rental
+
+@{
+    ViewData["Title"] = "Yeni Kiralama";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-0" style="background-color: #222; color: white;">
+            <div class="card-header bg-warning text-dark fw-bold">
+                <i class="fas fa-key me-2"></i>Yeni Araç Kiralama (Otomatik Hesaplama)
+            </div>
+            <div class="card-body p-4">
+
+                <form asp-action="RentalCreate" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label text-warning">Kiralanacak Araç</label>
+                        <select name="CarId" id="CarSelect" class="form-select bg-dark text-white border-secondary" required>
+                            <option value="" data-price="0">-- Araç Seçiniz --</option>
+                            @foreach (var car in ViewBag.Cars as List<rent_a_car.Models.Car>)
+                            {
+                                <option value="@car.Id" data-price="@car.DailyPrice">
+                                    @car.Brand @car.Model - @car.Plate (@car.DailyPrice ₺/gün)
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-warning">Müşteri Adı Soyadı</label>
+                        <input type="text" name="CustomerName" class="form-control bg-dark text-white border-secondary" placeholder="Örn: Ahmet Yılmaz" required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-warning">Alış Tarihi</label>
+                            <input type="date" name="RentDate" id="RentDate" class="form-control bg-dark text-white border-secondary" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-warning">İade Tarihi</label>
+                            <input type="date" name="ReturnDate" id="ReturnDate" class="form-control bg-dark text-white border-secondary" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-warning">Toplam Tutar (₺)</label>
+                        <input type="number" name="TotalPrice" id="TotalPrice" class="form-control bg-dark text-white border-secondary fw-bold text-success fs-4" placeholder="0" required />
+                        <small class="text-muted">* Otomatik hesaplanır, isterseniz değiştirebilirsiniz.</small>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning fw-bold text-dark btn-lg">Kiralama Başlat</button>
+                        <a asp-action="Rentals" class="btn btn-outline-secondary">İptal</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Elemanları seçelim
+    const carSelect = document.getElementById('CarSelect');
+    const rentDate = document.getElementById('RentDate');
+    const returnDate = document.getElementById('ReturnDate');
+    const totalPriceInput = document.getElementById('TotalPrice');
+
+    // Hesaplama Fonksiyonu
+    function calculatePrice() {
+        // 1. Seçilen aracın fiyatını al
+        const selectedOption = carSelect.options[carSelect.selectedIndex];
+        const dailyPrice = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+
+        // 2. Tarihleri al
+        const start = new Date(rentDate.value);
+        const end = new Date(returnDate.value);
+
+        // 3. Tarihler geçerli mi ve Bitiş > Başlangıç mı?
+        if (start && end && end > start && dailyPrice > 0) {
+            // Aradaki zaman farkını bul (milisaniye cinsinden)
+            const diffTime = Math.abs(end - start);
+            // Gün sayısına çevir (1000ms * 60sn * 60dk * 24sa)
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // 4. Tutarı Hesapla ve Yazdır
+            const total = diffDays * dailyPrice;
+            totalPriceInput.value = total;
+        } else {
+            // Hatalı tarih veya araç seçilmediyse 0 yapma (Kullanıcı elle yazmış olabilir, dokunma)
+            // Ama istersen burayı totalPriceInput.value = 0; yapabilirsin.
+        }
+    }
+
+    // Her değişiklikte hesapla
+    carSelect.addEventListener('change', calculatePrice);
+    rentDate.addEventListener('change', calculatePrice);
+    returnDate.addEventListener('change', calculatePrice);
+</script>

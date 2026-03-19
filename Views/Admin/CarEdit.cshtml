@@ -1,0 +1,45 @@
+﻿@model rent_a_car.Models.Car
+@{
+    ViewData["Title"] = "Araç Düzenle";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-0" style="background-color: #222; color: white;">
+            <div class="card-header bg-warning text-dark fw-bold">
+                <i class="fas fa-edit me-2"></i>Araç Bilgilerini Düzenle
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="CarEdit" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label class="text-warning">Marka & Model</label>
+                        <div class="input-group">
+                            <input type="text" asp-for="Brand" class="form-control bg-dark text-white border-secondary" placeholder="Marka">
+                            <input type="text" asp-for="Model" class="form-control bg-dark text-white border-secondary" placeholder="Model">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="text-warning">Plaka</label>
+                        <input type="text" asp-for="Plate" class="form-control bg-dark text-white border-secondary">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="text-warning">Günlük Fiyat (₺)</label>
+                        <input type="number" asp-for="DailyPrice" class="form-control bg-dark text-white border-secondary">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="text-warning">Resim Linki</label>
+                        <input type="text" asp-for="ImageUrl" class="form-control bg-dark text-white border-secondary">
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

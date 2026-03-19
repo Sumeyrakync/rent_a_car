@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Seçimi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card-box {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+            height: 100%;
+            display: block;
+        }
+
+            .card-box:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container text-center">
+        <h2 class="mb-5 fw-bold">Giriş Yapmak İstediğiniz Hesabı Seçin</h2>
+
+        <div class="row justify-content-center g-4">
+
+            <div class="col-md-4">
+                <a href="/Account/CustomerLogin" class="card card-box p-5 bg-white shadow rounded-4">
+                    <div class="display-4 text-warning mb-3"><i class="fa-solid fa-user"></i></div>
+                    <h4 class="fw-bold">Müşteri Girişi</h4>
+                    <p class="text-muted">Araç kiralamak için devam et.</p>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="/Account/Login" class="card card-box p-5 bg-dark text-white shadow rounded-4">
+                    <div class="display-4 text-white mb-3"><i class="fa-solid fa-user-gear"></i></div>
+                    <h4 class="fw-bold">Yönetici Girişi</h4>
+                    <p class="text-white-50">Admin paneline erişim sağlar.</p>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="mt-5">
+            <a href="/Home/Index" class="text-secondary text-decoration-none">← Ana Sayfaya Dön</a>
+        </div>
+    </div>
+
+</body>
+</html>

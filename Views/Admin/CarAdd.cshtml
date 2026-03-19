@@ -1,0 +1,80 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yeni Araç Ekle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+            <div class="card-header bg-dark text-white">
+                <h4 class="m-0">Yeni Araç Ekle</h4>
+            </div>
+            <div class="card-body p-4">
+
+                <form action="/Admin/CarAdd" method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label">Marka</label>
+                        <input type="text" name="Brand" class="form-control" placeholder="Örn: BMW" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Model</label>
+                        <input type="text" name="Model" class="form-control" placeholder="Örn: 520i" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Plaka</label>
+                        <input type="text" name="Plate" class="form-control" placeholder="34 ABC 123" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Yakıt</label>
+                            <select name="Fuel" class="form-select">
+                                <option value="Benzin">Benzin</option>
+                                <option value="Dizel">Dizel</option>
+                                <option value="Elektrik">Elektrik</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Vites</label>
+                            <select name="Gear" class="form-select">
+                                <option value="Otomatik">Otomatik</option>
+                                <option value="Manuel">Manuel</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Günlük Fiyat (₺)</label>
+                        <input type="number" name="DailyPrice" class="form-control" placeholder="1500" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Resim URL (Link)</label>
+                        <input type="text" name="ImageUrl" class="form-control" placeholder="https://..." value="https://via.placeholder.com/300">
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" name="IsAvailable" value="true" checked>
+                        <label class="form-check-label">Araç Müsait mi?</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning w-100 fw-bold">Kaydet</button>
+                    <a href="/Admin/CarList" class="btn btn-secondary w-100 mt-2">İptal</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

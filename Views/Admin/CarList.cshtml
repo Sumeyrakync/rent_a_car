@@ -1,0 +1,85 @@
+﻿@model IEnumerable<rent_a_car.Models.Car>
+
+@{
+    ViewData["Title"] = "Araç Filosu";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="text-white fw-bold mb-1">Araç Durum Listesi</h4>
+        <p class="text-muted small m-0">Filodaki tüm araçları buradan yönetebilirsiniz.</p>
+    </div>
+    <div>
+        <a asp-action="DamagedVehicles" class="btn btn-danger shadow-sm fw-bold px-3 me-2">
+            <i class="fas fa-tools me-2"></i>Arızalı Araçlar
+        </a>
+        <a asp-action="CarAdd" class="btn btn-success shadow-sm fw-bold px-3">
+            <i class="fas fa-plus me-2"></i>Yeni Araç
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table admin-table table-hover align-middle">
+        <thead>
+            <tr>
+                <th style="width: 100px;">Görsel</th>
+                <th>Araç Bilgisi</th>
+                <th>Fiyat</th>
+                <th>Durum</th>
+                <th style="width: 180px;">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                // Eğer araç hasarlıysa satırı biraz kırmızımsı yapalım
+                string rowClass = item.IsDamaged ? "table-danger" : "";
+
+                <tr class="@rowClass">
+                    <td>
+                        <img src="@item.ImageUrl" class="rounded shadow-sm" style="width: 80px; height: 50px; object-fit: cover;" onerror="this.src='https://via.placeholder.com/80x50'">
+                    </td>
+                    <td>
+                        <div class="fw-bold text-white">@item.Brand @item.Model</div>
+                        <small class="text-muted">@item.Plate</small>
+                    </td>
+                    <td class="text-white fw-bold">@item.DailyPrice ₺</td>
+                    <td>
+                        @if (item.IsDamaged)
+                        {
+                            <span class="badge bg-danger">HASARLI / SERVİSTE</span>
+                        }
+                        else if (item.IsAvailable)
+                        {
+                            <span class="badge bg-success">MÜSAİT</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">KİRADA</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="/Admin/CarEdit/@item.Id" class="btn btn-sm btn-warning text-dark fw-bold" title="Düzenle">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <a href="/Admin/DeleteCar/@item.Id" class="btn btn-sm btn-dark text-white" title="Sil" onclick="return confirm('Silmek istediğine emin misin?');">
+                                <i class="fas fa-trash"></i>
+                            </a>
+
+                            @if (!item.IsDamaged && item.IsAvailable)
+                            {
+                                <a href="/Admin/ReportDamage/@item.Id" class="btn btn-sm btn-danger" title="Arıza Bildir" onclick="return confirm('Bu aracı BAKIMA/SERVİSE göndermek istiyor musun?');">
+                                    <i class="fas fa-car-crash"></i>
+                                </a>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

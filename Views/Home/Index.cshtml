@@ -1,0 +1,261 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyRent - Adana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="~/css/landing.css?v=final_gold">
+</head>
+<body data-theme="light">
+
+    <div class="bg-slideshow"><div class="bg-slide"></div><div class="bg-slide"></div><div class="bg-slide"></div></div>
+    <div class="bg-overlay"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container-fluid px-lg-5">
+            <a class="navbar-brand fw-bold fs-3" href="#"><i class="fas fa-car text-primary me-2"></i> EasyRent</a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="#hero" data-lang="nav_home">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#guide" data-lang="nav_guide">Rehber</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features" data-lang="nav_features">Ayrıcalıklar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about" data-lang="nav_about">Kurumsal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#filo" data-lang="nav_fleet">Filo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq" data-lang="nav_faq">SSS</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact" data-lang="nav_contact">İletişim</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <button class="btn btn-icon rounded-circle" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
+                    <div class="dropdown">
+                        <button class="btn btn-icon rounded-circle dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><span id="currentLangSpan" class="fw-bold small">TR</span></button>
+                        <ul class="dropdown-menu dropdown-menu-end mt-2 shadow">
+                            <li><a class="dropdown-item cursor-pointer" onclick="changeLanguage('tr')">🇹🇷 Türkçe</a></li>
+                            <li><a class="dropdown-item cursor-pointer" onclick="changeLanguage('en')">🇬🇧 English</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown d-inline-block">
+                        <button class="btn btn-warning dropdown-toggle text-white fw-bold px-4 rounded-pill border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #ff9800;">
+                            <i class="fa-solid fa-right-to-bracket me-2"></i>
+                            <span data-lang="btn_login_main">Giriş Yap</span>
+                        </button>
+                        <ul class="dropdown-menu mt-2 shadow">
+                            <li>
+                                <a class="dropdown-item" href="/Account/CustomerLogin">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    <span data-lang="nav_cust_login">Müşteri Girişi</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="/Account/Login">
+                                    <i class="fa-solid fa-user-gear me-2"></i>
+                                    <span data-lang="nav_admin_login">Yönetici Girişi</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero-wrapper d-flex align-items-center justify-content-center">
+        <div class="container-fluid px-lg-5 position-relative" style="z-index:2;">
+            <div class="text-center mb-5 text-white animate__animated animate__fadeInDown">
+                <h1 class="display-4 fw-bold hero-title" data-lang="hero_title">Güvenli ve Konforlu Yolculuk</h1>
+                <p class="lead hero-desc" data-lang="hero_desc">Adana'nın en geniş araç filosu ve 7/24 hizmet garantisi.</p>
+            </div>
+            <div class="row justify-content-center animate__animated animate__fadeInUp">
+                <div class="col-xl-12">
+                    <div class="search-widget rounded-4 shadow-lg overflow-hidden">
+                        <div class="widget-header d-flex border-bottom">
+                            <button class="widget-tab active" onclick="switchTab('daily')" id="tab-daily"><i class="fas fa-calendar-day me-2"></i> <span data-lang="tab_daily">Günlük Kiralama</span></button>
+                            <button class="widget-tab" onclick="switchTab('monthly')" id="tab-monthly"><i class="fas fa-calendar-alt me-2"></i> <span data-lang="tab_monthly">Aylık Kiralama</span></button>
+                            <button class="widget-tab" onclick="switchTab('reservation')" id="tab-reservation"><i class="fas fa-search me-2"></i> <span data-lang="tab_res">Rezervasyon İşlemleri</span></button>
+                        </div>
+                        <div class="widget-body p-4">
+                            <form id="rentalForm" onsubmit="searchCars(event)">
+                                <div class="row g-2 align-items-end" id="mainRow">
+                                    <div class="col-lg-3 transition-col" id="col-pickup">
+                                        <label class="label-custom" data-lang="lbl_pickup">ALIŞ YERİ</label>
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-map-marker-alt text-primary"></i></span><select class="form-select fw-bold text-truncate" id="pickupLoc"><option disabled selected data-lang="opt_select">Seçiniz</option><optgroup label="Adana"><option value="ADA" data-lang="loc_ada">Havalimanı</option><option value="SEYHAN" data-lang="loc_seyhan">Seyhan Ofis</option></optgroup></select></div>
+                                    </div>
+                                    <div class="col-lg-0 d-none transition-col" id="col-dropoff">
+                                        <label class="label-custom" data-lang="lbl_dropoff">İADE YERİ</label>
+                                        <div class="input-group"><span class="input-group-text"><i class="fas fa-map-pin text-danger"></i></span><select class="form-select fw-bold text-truncate" id="dropoffLoc"><option value="ADA" data-lang="loc_ada">Havalimanı</option><option value="SEYHAN" data-lang="loc_seyhan">Seyhan Ofis</option></select></div>
+                                    </div>
+                                    <div class="col-lg-6" id="col-dates">
+                                        <div class="row g-1">
+                                            <div class="col-4"><label class="label-custom" data-lang="lbl_pdate">ALIŞ TARİHİ</label><input type="text" class="form-control fw-bold flatpickr-input" id="pickupDate" readonly data-lang-placeholder="ph_date" placeholder="Tarih"></div>
+                                            <div class="col-2"><label class="label-custom" data-lang="lbl_time">SAAT</label><select class="form-select text-center fw-bold px-0" id="pickupTime"></select></div>
+                                            <div class="col-4 daily-only"><label class="label-custom" data-lang="lbl_ddate">DÖNÜŞ TARİHİ</label><input type="text" class="form-control fw-bold flatpickr-input" id="dropoffDate" readonly data-lang-placeholder="ph_date" placeholder="Tarih"></div>
+                                            <div class="col-2 daily-only"><label class="label-custom" data-lang="lbl_time">SAAT</label><select class="form-select text-center fw-bold px-0" id="dropoffTime"></select></div>
+                                            <div class="col-6 monthly-only d-none"><label class="label-custom" data-lang="lbl_duration">SÜRE</label><select class="form-select fw-bold"><option value="1" data-lang="dur_1">1 Ay</option><option value="3" data-lang="dur_3">3 Ay</option><option value="6" data-lang="dur_6">6 Ay</option></select></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 transition-col" id="col-btn"><button type="submit" class="btn btn-primary w-100 fw-bold h-100 shadow-sm text-uppercase"><span data-lang="btn_find">ARAÇ BUL</span> <i class="fas fa-chevron-right ms-2"></i></button></div>
+                                </div>
+                                <div class="mt-2"><div class="form-check d-inline-block"><input class="form-check-input cursor-pointer" type="checkbox" id="diffLocCheck" onchange="toggleDropoff()"><label class="form-check-label label-custom cursor-pointer" for="diffLocCheck" data-lang="chk_diff">Farklı yerde teslim etmek istiyorum</label></div></div>
+                            </form>
+                            <form id="resForm" class="d-none" onsubmit="checkReservation(event)"><div class="row g-3 align-items-end"><div class="col-md-4"><label class="label-custom" data-lang="lbl_pnr">PNR KODU</label><input type="text" class="form-control fw-bold text-uppercase" id="resCode" data-lang-placeholder="ph_pnr" placeholder="Örn: 123456"><div class="invalid-feedback" data-lang="err_pnr">Kod giriniz.</div></div><div class="col-md-4"><label class="label-custom" data-lang="lbl_surname">SOYİSİM</label><input type="text" class="form-control fw-bold text-uppercase" id="resSurname" data-lang-placeholder="ph_surname" placeholder="SOYİSİM"><div class="invalid-feedback" data-lang="err_surname">Soyisim giriniz.</div></div><div class="col-md-4 d-flex gap-2"><button class="btn btn-info text-white w-50 h-100 fw-bold" data-lang="btn_query">SORGULA</button><button class="btn btn-danger w-50 h-100 fw-bold" data-lang="btn_cancel">İPTAL</button></div></div></form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="guide" class="py-5 bg-section">
+        <div class="container py-4">
+            <h2 class="fw-bold text-center mb-4 section-title" data-lang="guide_title">Kiralama Rehberi</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="review-card p-4 rounded-4 border shadow-sm position-relative overflow-hidden" id="guideCard">
+                        <div id="guideText" style="max-height:150px; overflow:hidden; transition:max-height 0.5s ease;">
+                            <p class="card-text mb-3" data-lang="guide_p1">Doğru araç seçimi önemlidir.</p>
+                            <h6 class="fw-bold text-primary mt-3" data-lang="guide_h1">1. Seçim</h6><p class="card-text mb-2" data-lang="guide_p2">Yolcu ve bagaja göre seçin.</p>
+                            <h6 class="fw-bold text-primary mt-3" data-lang="guide_h2">2. Sigorta</h6><p class="card-text mb-2" data-lang="guide_p3">Tam kasko önerilir.</p>
+                            <h6 class="fw-bold text-primary mt-3" data-lang="guide_h3">3. Teslim</h6><p class="card-text mb-0" data-lang="guide_p4">Aracı kontrol ederek teslim alın.</p>
+                            <h6 class="fw-bold text-primary mt-3" data-lang="guide_h4">4. İade</h6><p class="card-text mb-0" data-lang="guide_p5">Gecikme durumunda haber verin.</p>
+                        </div>
+                        <div class="text-center mt-3 pt-3 border-top position-relative bg-card" style="z-index:5;"><button class="btn btn-outline-primary rounded-pill px-4" id="btnExpandGuide" onclick="toggleGuide()" data-lang="btn_read_more">Devamını Oku <i class="fas fa-chevron-down ms-1"></i></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5"><h2 class="fw-bold section-title" data-lang="feat_title">Neden Biz?</h2><p class="section-desc" data-lang="feat_desc">Size sunduğumuz ayrıcalıklar.</p></div>
+            <div class="row g-4 text-center">
+                <div class="col-md-4"><div class="feature-card p-4 rounded-4 border h-100 hover-effect"><div class="icon-wrapper mb-3 text-primary"><i class="fas fa-wallet fa-3x"></i></div><h5 class="fw-bold mb-2" data-lang="feat_1_t">Ekonomik Fiyat</h5><p class="card-text small" data-lang="feat_1_d">Gizli ücret yok.</p></div></div>
+                <div class="col-md-4"><div class="feature-card p-4 rounded-4 border h-100 hover-effect"><div class="icon-wrapper mb-3 text-success"><i class="fas fa-car-side fa-3x"></i></div><h5 class="fw-bold mb-2" data-lang="feat_2_t">Geniş Filo</h5><p class="card-text small" data-lang="feat_2_d">Her ihtiyaca uygun.</p></div></div>
+                <div class="col-md-4"><div class="feature-card p-4 rounded-4 border h-100 hover-effect"><div class="icon-wrapper mb-3 text-danger"><i class="fas fa-headset fa-3x"></i></div><h5 class="fw-bold mb-2" data-lang="feat_3_t">7/24 Destek</h5><p class="card-text small" data-lang="feat_3_d">Her an yanınızda.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-5 bg-section">
+        <div class="container py-4">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0"><div class="p-3 glass-card rounded-4 shadow-sm d-inline-block"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded-3" alt="Ofis"></div></div>
+                <div class="col-lg-6 ps-lg-5">
+                    <h6 class="text-primary fw-bold text-uppercase ls-2" data-lang="about_sub">Kurumsal</h6>
+                    <h2 class="fw-bold mb-4 display-6 section-title" data-lang="about_title">Güvenin Adresi</h2>
+                    <p class="section-desc lead" data-lang="about_desc1">2010 yılında Adana'da kurulan şirketimiz, müşteri memnuniyeti ilkesiyle hizmet vermektedir.</p>
+                    <p class="section-desc" data-lang="about_desc2">Geniş araç filomuz ve şeffaf fiyat politikamızla sektörde fark yaratıyoruz.</p>
+                    <div class="row mt-4 g-3">
+                        <div class="col-6"><div class="border p-3 rounded-3 text-center bg-card"><h3 class="fw-bold text-primary mb-0">2010</h3><small class="card-text" data-lang="about_stat1">Kuruluş</small></div></div>
+                        <div class="col-6"><div class="border p-3 rounded-3 text-center bg-card"><h3 class="fw-bold text-primary mb-0">50K+</h3><small class="card-text" data-lang="about_stat2">Müşteri</small></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="filo" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5"><h2 class="fw-bold section-title" data-lang="fleet_title">Araç Filomuz</h2><p class="section-desc" data-lang="fleet_desc">İhtiyacınıza uygun aracı seçin.</p></div>
+            <div class="row">
+                <div class="col-lg-3 mb-4">
+                    <div class="filter-sidebar p-4 rounded-4 border sticky-top" style="top:100px;">
+                        <div class="d-flex justify-content-between align-items-center mb-3"><h6 class="fw-bold mb-0 section-title" data-lang="filter_title">Filtrele</h6><button class="btn btn-sm text-danger p-0 fw-bold" onclick="resetFilters()" data-lang="filter_clear">Temizle</button></div>
+                        <div class="mb-3"><label class="label-custom" data-lang="filter_brand">MARKA</label><select class="form-select form-select-sm" id="filterBrand" onchange="applyFilters()"><option value="all" data-lang="opt_all">Tümü</option><option value="Renault">Renault</option><option value="Fiat">Fiat</option><option value="BMW">BMW</option><option value="Mercedes">Mercedes</option></select></div>
+                        <div class="mb-3"><label class="label-custom" data-lang="filter_year">MODEL YILI</label><select class="form-select form-select-sm" id="filterYear" onchange="applyFilters()"><option value="2020">2020+</option><option value="2022">2022+</option><option value="2024">2024+</option></select></div>
+                        <div class="mb-3"><label class="label-custom" data-lang="filter_color">RENK</label><select class="form-select form-select-sm" id="filterColor" onchange="applyFilters()"><option value="all" data-lang="opt_all">Tümü</option><option value="Beyaz" data-lang="clr_white">Beyaz</option><option value="Siyah" data-lang="clr_black">Siyah</option></select></div>
+                        <div class="mb-3"><label class="label-custom" data-lang="filter_gear">VİTES</label><div class="d-flex gap-2"><input type="radio" class="btn-check" name="gear" id="gearAll" value="all" checked onchange="applyFilters()"><label class="btn btn-outline-secondary btn-sm flex-fill" for="gearAll" data-lang="opt_all">Tümü</label><input type="radio" class="btn-check" name="gear" id="gearAuto" value="auto" onchange="applyFilters()"><label class="btn btn-outline-secondary btn-sm flex-fill" for="gearAuto" data-lang="gear_auto">Oto</label><input type="radio" class="btn-check" name="gear" id="gearManual" value="manual" onchange="applyFilters()"><label class="btn btn-outline-secondary btn-sm flex-fill" for="gearManual" data-lang="gear_manual">Man</label></div></div>
+                        <div class="mb-3"><label class="label-custom" data-lang="filter_fuel">YAKIT</label><select class="form-select form-select-sm" id="filterFuel" onchange="applyFilters()"><option value="all" data-lang="opt_all">Tümü</option><option value="gasoline" data-lang="fuel_gas">Benzin</option><option value="diesel" data-lang="fuel_dsl">Dizel</option><option value="hybrid" data-lang="fuel_hyb">Hibrit</option></select></div>
+                        <div class="mb-2"><label class="label-custom" data-lang="filter_price">MAX FİYAT</label><input type="range" class="form-range" min="500" max="10000" step="100" id="filterPrice" oninput="document.getElementById('priceVal').innerText=this.value+' ₺'" onchange="applyFilters()"><div class="d-flex justify-content-between small fw-bold text-primary"><span>500 ₺</span><span id="priceVal">5000 ₺</span></div></div>
+                    </div>
+                </div>
+                <div class="col-lg-9"><div class="row g-4" id="vehicleGrid"></div><div id="noResultMsg" class="text-center py-5 d-none"><i class="fas fa-search fa-3x text-muted mb-3"></i><h5 class="text-muted" data-lang="no_result">Araç bulunamadı.</h5></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-5 bg-section">
+        <div class="container py-4">
+            <h2 class="fw-bold text-center mb-5 section-title" data-lang="faq_title">Sıkça Sorulan Sorular</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item bg-card border mb-3 rounded"><h2 class="accordion-header"><button class="accordion-button collapsed bg-card section-title" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" data-lang="faq_q1">Yaş sınırı?</button></h2><div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body card-text" data-lang="faq_a1">En az 21 yaş.</div></div></div>
+                        <div class="accordion-item bg-card border mb-3 rounded"><h2 class="accordion-header"><button class="accordion-button collapsed bg-card section-title" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" data-lang="faq_q2">Depozito?</button></h2><div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body card-text" data-lang="faq_a2">Evet, provizyon alınır.</div></div></div>
+                        <div class="accordion-item bg-card border mb-3 rounded"><h2 class="accordion-header"><button class="accordion-button collapsed bg-card section-title" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" data-lang="faq_q3">KM Sınırı?</button></h2><div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body card-text" data-lang="faq_a3">Günlük 400km.</div></div></div>
+                        <div id="moreFaq" class="d-none">
+                            <div class="accordion-item bg-card border mb-3 rounded"><h2 class="accordion-header"><button class="accordion-button collapsed bg-card section-title" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" data-lang="faq_q4">Ek sürücü?</button></h2><div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body card-text" data-lang="faq_a4">Evet eklenebilir.</div></div></div>
+                            <div class="accordion-item bg-card border mb-3 rounded"><h2 class="accordion-header"><button class="accordion-button collapsed bg-card section-title" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" data-lang="faq_q5">İptal?</button></h2><div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body card-text" data-lang="faq_a5">24 saat kala ücretsiz.</div></div></div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3"><button class="btn btn-link text-decoration-none fw-bold" id="btnShowAllFaq" onclick="toggleFaq()" data-lang="btn_see_all">Tüm Soruları Gör <i class="fas fa-chevron-down"></i></button></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="py-5">
+        <div class="container py-4">
+            <h2 class="fw-bold text-center mb-5 section-title" data-lang="review_title">Müşteri Deneyimleri</h2>
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><div class="row justify-content-center"><div class="col-md-8 text-center"><div class="review-card p-5 rounded-4 border bg-card shadow-sm"><div class="text-warning mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="fs-5 fst-italic card-text" data-lang="rev_1_text">"Havalimanı teslimat süreci çok hızlıydı."</p><h6 class="fw-bold mt-4 text-primary">- Ahmet Yılmaz</h6></div></div></div></div>
+                    <div class="carousel-item"><div class="row justify-content-center"><div class="col-md-8 text-center"><div class="review-card p-5 rounded-4 border bg-card shadow-sm"><div class="text-warning mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><p class="fs-5 fst-italic card-text" data-lang="rev_2_text">"Fiyatlar çok uygun."</p><h6 class="fw-bold mt-4 text-primary">- Ayşe Demir</h6></div></div></div></div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon p-3 bg-dark rounded-circle" aria-hidden="true"></span></button>
+                <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next"><span class="carousel-control-next-icon p-3 bg-dark rounded-circle" aria-hidden="true"></span></button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="pt-5 pb-4 border-top">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="navbar-brand fw-bold fs-3 mb-3 d-block" href="#"><i class="fas fa-car text-primary me-2"></i> EasyRent</a>
+                    <p class="footer-text small" data-lang="footer_desc">Adana'nın en güvenilir firması.</p>
+                    <div class="d-flex gap-3">
+                        <a href="https://twitter.com" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fab fa-instagram"></i></a>
+                        <a href="https://facebook.com" target="_blank" class="btn btn-sm btn-outline-primary rounded-circle"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="fw-bold mb-3 footer-title" data-lang="footer_contact">İletişim</h6>
+                    <ul class="list-unstyled footer-text small">
+                        <li class="mb-2"><a href="http://googleusercontent.com/maps.google.com" target="_blank" class="text-decoration-none footer-link"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Seyhan, Adana</a></li>
+                        <li class="mb-2"><a href="tel:08501234567" class="text-decoration-none footer-link"><i class="fas fa-phone me-2 text-primary"></i> 0850 123 45 67</a></li>
+                        <li class="mb-2"><a href="mailto:info@easyrent.com" class="text-decoration-none footer-link"><i class="fas fa-envelope me-2 text-primary"></i> info@easyrent.com</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="fw-bold mb-3 footer-title" data-lang="footer_corp">Kurumsal</h6>
+                    <ul class="list-unstyled footer-text small">
+                        <li><a href="#" class="text-decoration-none footer-link" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="setModalContent('Privacy')" data-lang="footer_priv">Gizlilik Politikası</a></li>
+                        <li><a href="#" class="text-decoration-none footer-link" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="setModalContent('Terms')" data-lang="footer_terms">Kiralama Koşulları</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top mt-4 pt-3 text-center small footer-text">© 2025 EasyRent.</div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="infoModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-4" style="background:var(--widget-bg); color:var(--text-main);"><div class="modal-header border-0"><h5 class="modal-title fw-bold" id="infoModalLabel">Bilgi</h5><button type="button" class="btn-close" data-bs-dismiss="modal" style="filter:invert(0.5)"></button></div><div class="modal-body" id="infoModalBody">...</div><div class="modal-footer border-0 justify-content-center"><button class="btn btn-success fw-bold rounded-pill px-4" onclick="toggleChat();" data-bs-dismiss="modal"><i class="fas fa-headset me-2"></i> <span data-lang="live_support">Canlı Destek</span></button></div></div></div></div>
+
+    <button id="chatTrigger" class="chat-trigger shadow-lg" onclick="toggleChat()"><i class="fas fa-robot fa-lg"></i></button>
+    <div id="chatWindow" class="chat-window shadow-lg d-none"><div class="chat-header"><h6 class="mb-0 fw-bold" data-lang="chat_title">Asistan</h6><button class="btn btn-sm text-white" onclick="toggleChat()">X</button></div><div id="chatMessages" class="chat-body"></div><div id="chatInputArea" class="chat-footer"></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/tr.js"></script>
+    <script src="~/js/landing.js?v=final_v13"></script>
+</body>
+</html>

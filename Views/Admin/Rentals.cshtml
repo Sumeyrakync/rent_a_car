@@ -1,0 +1,103 @@
+﻿@model IEnumerable<rent_a_car.Models.Rental>
+
+@{
+    ViewData["Title"] = "Kiralama Geçmişi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="text-white fw-bold mb-1">Kiralama Hareketleri</h4>
+        <p class="text-muted small m-0">Aktif ve geçmiş tüm kiralamaları buradan yönetebilirsiniz.</p>
+    </div>
+    <a asp-action="RentalCreate" class="btn btn-primary shadow-sm fw-bold px-4">
+        <i class="fas fa-file-signature me-2"></i>Yeni Kiralama Yap
+    </a>
+</div>
+
+<div class="table-responsive">
+    <table class="table admin-table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Araç</th>
+                <th>Müşteri</th>
+                <th>Tarihler</th>
+                <th>Tutar</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                /* Tarih kontrolü: Bugün, dönüş tarihini geçmişse kırmızı yapalım */
+                bool isLate = item.ReturnDate < DateTime.Now && item.Car.IsAvailable == false;
+
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-dark rounded p-1 me-2 border border-secondary">
+                                <i class="fas fa-car text-warning"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold text-white">@item.Car.Brand @item.Car.Model</div>
+                                <small class="text-muted">@item.Car.Plate</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="fw-bold text-white">@item.CustomerName</div>
+                        <small class="text-muted"><i class="fas fa-user-tag me-1"></i>Ofis/Web</small>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-column small">
+                            <span class="text-success"><i class="fas fa-arrow-up me-1"></i>@item.RentDate.ToString("dd.MM.yyyy")</span>
+                            <span class="@(isLate ? "text-danger fw-bold" : "text-white-50")">
+                                <i class="fas fa-arrow-down me-1"></i>@item.ReturnDate.ToString("dd.MM.yyyy")
+                            </span>
+                        </div>
+                    </td>
+                    <td class="text-success fw-bold">@item.TotalPrice ₺</td>
+                    <td>
+                        @if (item.Car.IsAvailable)
+                        {
+                            <span class="badge bg-secondary text-white-50"><i class="fas fa-check-double me-1"></i>Tamamlandı</span>
+                        }
+                        else
+                        {
+                            if (isLate)
+                            {
+                                <span class="badge bg-danger animate__animated animate__pulse animate__infinite">GECİKTİ</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Devam Ediyor</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (!item.Car.IsAvailable)
+                        {
+                            /* Araç hala kiradaysa İADE AL butonu çıkar */
+                            <a href="/Admin/RentalReturn/@item.Id" class="btn btn-sm btn-success fw-bold" onclick="return confirm('Araç teslim alındı mı?');">
+                                <i class="fas fa-undo me-1"></i>İade Al
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted small">-</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-dark text-center mt-3 border-secondary text-muted">
+        <i class="fas fa-folder-open fa-2x mb-3 d-block"></i>
+        Henüz hiç kiralama kaydı bulunmuyor.
+    </div>
+}
